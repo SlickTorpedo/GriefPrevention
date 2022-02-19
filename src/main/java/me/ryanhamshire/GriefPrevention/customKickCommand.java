@@ -75,7 +75,7 @@ public class customKickCommand extends JavaPlugin
             //if the player isn't in a claim or has permission to build, tell him to man up
             if (claim == null || claim.checkPermission(player, ClaimPermission.Build, null) == null)
             {
-                GriefPrevention.sendMessage(player, TextMode.Err, Messages.NotTrappedHere);
+                player.sendMessage("You cannot use this command here!");
                 return true;
             }
 
@@ -86,18 +86,18 @@ public class customKickCommand extends JavaPlugin
             //if the player is in the nether or end, he's screwed (there's no way to programmatically find a safe place for him)
             if (player.getWorld().getEnvironment() != Environment.NORMAL && event.getDestination() == null)
             {
-                GriefPrevention.sendMessage(player, TextMode.Err, Messages.TrappedWontWorkHere);
+                player.sendMessage("This won't work here I'm sorry!");
                 return true;
             }
 
             //if the player is in an administrative claim and AllowTrappedInAdminClaims is false, he should contact an admin
             if (!GriefPrevention.instance.config_claims_allowTrappedInAdminClaims && claim.isAdminClaim() && event.getDestination() == null)
             {
-                GriefPrevention.sendMessage(player, TextMode.Err, Messages.TrappedWontWorkHere);
+                player.sendMessage("This won't work here I'm sorry! (AC)");
                 return true;
             }
             //send instructions
-            GriefPrevention.sendMessage(player, TextMode.Instr, Messages.RescuePending);
+            //GriefPrevention.sendMessage(player, TextMode.Instr, Messages.RescuePending);
 
             //create a task to rescue this player in a little while
             PlayerRescueTask task = new PlayerRescueTask(player, player.getLocation(), event.getDestination());
